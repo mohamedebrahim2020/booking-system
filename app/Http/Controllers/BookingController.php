@@ -11,6 +11,7 @@
 	use Illuminate\Http\Response;
 	use Illuminate\Support\Facades\DB;
 	use Illuminate\Support\Facades\Gate;
+	use Illuminate\Support\Facades\Log;
 
 	class BookingController extends Controller
 	{
@@ -31,8 +32,8 @@
 				auth()->user()->notify((new BookingConfirmation($request->safe()->merge(['user' => auth()->user()])->all()))->afterCommit());
 				DB::commit();
 			} catch (\Exception $e) {
-				dd($e);
 				DB::rollBack();
+				Log::error('Booking failed: ' . $e->getMessage(), ['exception' => $e]);
 				return response()->json(['message' => $e->getMessage()],Response::HTTP_BAD_REQUEST);
 			}
 			return response()->json(['message' => 'Booking created successfully!'],Response::HTTP_CREATED);
