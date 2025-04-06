@@ -1,6 +1,7 @@
 
 
 ## Booking System Installation
+- [php artisan composer:install]
 - [php artisan key:generate].
 - [php artisan install:api]).
 - [php artisan migrate]).
